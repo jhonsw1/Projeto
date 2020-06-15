@@ -1,0 +1,74 @@
+<template>
+  <div id="general">
+      <div id="Panel">
+          <div>
+              <span class="SubName">Entrada de NF</span>
+              <div v-for="info in infoDebt" :key="info.ID">{{info.LaunchNF}}</div>
+          </div>
+          <div>
+              <span class="SubName">Débitos Pendentes</span>
+              <div v-for="info in infoDebt" :key="info.ID">{{info.OpenDebt}}</div>
+          </div>
+          <div>
+              <span class="SubName">Valor total</span>
+              <div v-for="info in infoDebt" :key="info.ID">{{info.ValueDebt}}</div>
+          </div>
+      </div>
+      <button class="Btn" @click="ComeBack">Voltar</button>
+  </div>
+</template>
+
+<script>
+export default {
+    computed: {
+        infoDebt(){
+             return this.$store.state.InfoScoreComp;
+        }
+    }, methods: {
+        ComeBack: function(){
+            this.$router.push('PanelInfo')
+        }
+    }
+}
+</script>
+
+<style>
+#general {
+    user-select: none;
+}
+.SubName {
+    margin-left: 40px;
+}
+#Panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    background-color: #ffff;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    width: 30%;
+    margin-left: 35%;
+    box-shadow: 0px 0px 0px 1px rgb(243, 243, 243);
+}
+.Btn {
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    margin-top: 20px;
+    margin-left: 20px;
+    border-radius: 3px;
+    height: 35px;
+    width: 150px;
+    outline: none;
+    background-color:rgb(206, 50, 172);
+}
+.Btn:hover {
+    transition: all 0.60s;
+    background-color: rgb(230, 86, 210);
+    
+  }
+</style>

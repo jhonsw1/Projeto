@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="companyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="infoComp">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nameComp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="cnpj" Type="String" MaxLength="18" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="id_infoScore" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="InfoScore" Relationship="Self.FK_infoComp_infoScore" FromRole="infoComp" ToRole="InfoScore" />
+  </EntityType>
+  <EntityType Name="InfoScore">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="scoreComp" Type="Int32" Nullable="false" />
+    <Property Name="launchNF" Type="Int32" Nullable="false" />
+    <Property Name="openDebt" Type="Int32" Nullable="false" />
+    <Property Name="valueDebt" Type="Double" Nullable="false" />
+    <NavigationProperty Name="infoComp" Relationship="Self.FK_infoComp_infoScore" FromRole="InfoScore" ToRole="infoComp" />
+  </EntityType>
+  <Association Name="FK_infoComp_infoScore">
+    <End Role="InfoScore" Type="Self.InfoScore" Multiplicity="1" />
+    <End Role="infoComp" Type="Self.infoComp" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InfoScore">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="infoComp">
+        <PropertyRef Name="id_infoScore" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="companyEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="infoComp" EntityType="Self.infoComp" />
+    <EntitySet Name="InfoScore" EntityType="Self.InfoScore" />
+    <AssociationSet Name="FK_infoComp_infoScore" Association="Self.FK_infoComp_infoScore">
+      <End Role="InfoScore" EntitySet="InfoScore" />
+      <End Role="infoComp" EntitySet="infoComp" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

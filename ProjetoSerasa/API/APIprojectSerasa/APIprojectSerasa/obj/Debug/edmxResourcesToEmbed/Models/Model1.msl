@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="companyModelStoreContainer" CdmEntityContainer="companyEntities">
+    <EntitySetMapping Name="infoComp">
+      <EntityTypeMapping TypeName="companyModel.infoComp">
+        <MappingFragment StoreEntitySet="infoComp">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="nameComp" ColumnName="nameComp" />
+          <ScalarProperty Name="cnpj" ColumnName="cnpj" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="id_infoScore" ColumnName="id_infoScore" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InfoScore">
+      <EntityTypeMapping TypeName="companyModel.InfoScore">
+        <MappingFragment StoreEntitySet="InfoScore">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="scoreComp" ColumnName="scoreComp" />
+          <ScalarProperty Name="launchNF" ColumnName="launchNF" />
+          <ScalarProperty Name="openDebt" ColumnName="openDebt" />
+          <ScalarProperty Name="valueDebt" ColumnName="valueDebt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

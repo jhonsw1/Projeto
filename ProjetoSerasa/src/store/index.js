@@ -1,0 +1,25 @@
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+
+export default new Vuex.Store({
+  state: {
+    InfoScoreComp: [{}],
+    GlobalScore: [{}]
+  },
+
+  mutations: {
+    InfoAPIcomp: function (state, Companys) {
+      state.InfoScoreComp.push(Companys)
+    },
+    InfoGlobalScore: function (state, Score) {
+      state.GlobalScore.push(Score)
+    },
+  },
+  actions: {
+  },
+  modules: {
+  }
+})

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="companyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="infoComp">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nameComp" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="cnpj" Type="varchar" MaxLength="18" Nullable="false" />
+    <Property Name="address" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="id_infoScore" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InfoScore">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="scoreComp" Type="int" Nullable="false" />
+    <Property Name="launchNF" Type="int" Nullable="false" />
+    <Property Name="openDebt" Type="int" Nullable="false" />
+    <Property Name="valueDebt" Type="float" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_infoComp_infoScore">
+    <End Role="InfoScore" Type="Self.InfoScore" Multiplicity="1" />
+    <End Role="infoComp" Type="Self.infoComp" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InfoScore">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="infoComp">
+        <PropertyRef Name="id_infoScore" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="companyModelStoreContainer">
+    <EntitySet Name="infoComp" EntityType="Self.infoComp" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InfoScore" EntityType="Self.InfoScore" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_infoComp_infoScore" Association="Self.FK_infoComp_infoScore">
+      <End Role="InfoScore" EntitySet="InfoScore" />
+      <End Role="infoComp" EntitySet="infoComp" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
