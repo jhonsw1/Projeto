@@ -9,7 +9,6 @@ export default new Vuex.Store({
     InfoScoreComp: [{}],
     GlobalScore: [{}]
   },
-
   mutations: {
     InfoAPIcomp: function (state, Companys) {
       state.InfoScoreComp.push(Companys)

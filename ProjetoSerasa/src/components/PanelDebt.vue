@@ -34,9 +34,13 @@ export default {
 
 <style>
 #general {
+    margin: auto;
     user-select: none;
+    max-width: 30%;
+    min-height: 100px;
 }
 .SubName {
+    
     margin-left: 40px;
 }
 #Panel {
@@ -49,9 +53,7 @@ export default {
     justify-items: center;
     align-items: center;
     justify-content: center;
-    height: 100px;
-    width: 30%;
-    margin-left: 35%;
+    min-height: 100px;
     box-shadow: 0px 0px 0px 1px rgb(243, 243, 243);
 }
 .Btn {

@@ -32,8 +32,15 @@ namespace APIprojectSerasa.Controllers
         }
 
         // PUT: api/Company/5
-        public void Put(int id, [FromBody]string value)
+        public string Put(int id, [FromBody]InfoScore value)
         {
+            InfoScore change = bd.InfoScore.Find(id);
+            change.launchNF = value.launchNF;
+            change.openDebt = value.openDebt;
+            change.valueDebt = value.valueDebt;
+            change.scoreComp = value.scoreComp;
+            bd.SaveChanges();
+            return "Alterado com sucesso!!";
         }
 
         // DELETE: api/Company/5

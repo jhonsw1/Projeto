@@ -92,17 +92,17 @@ export default {
   justify-content: center;
   flex-direction: column;
   min-height: 200px;
-  width: 50%;
+  min-width: 30%;
   margin-left: 25%;
   user-select: none;
+  margin: auto;
 }
 #PanelScore {
   background-color: #ffffff;
-  width: 45%;
+  min-width: 20%;
   margin-left: 10px;
   min-height: 520px;
   display: flex;
-  
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -115,8 +115,8 @@ export default {
   justify-content: center;
   margin-top: 50px;
   margin-left: 33%;
-  height: 100px;
-  width: 100px;
+  min-height: 100px;
+  max-width: 100px;
   border-radius: 100px;
   box-shadow: 6px 6px 10px green;
 }
@@ -130,7 +130,7 @@ export default {
 #Ranking {
   background-color: #fff;
   margin-left: 8%;
-  width: 84%;
+  min-width: 84%;
   min-height: 250px;
   box-shadow: 0px 0px 0px 1px rgb(255, 249, 249);
   margin: auto;
@@ -153,12 +153,12 @@ export default {
 }
 #divRankGene {
   margin: auto;
-  width: 80%;
+  min-width: 80%;
 }
 #divRank {
   cursor: pointer;
   display: flex;
-  width: 97%;
+  min-width: 97%;
   margin: auto;
   margin-top: 10px;
   border-bottom: 1px solid rgb(252, 246, 246);
@@ -173,9 +173,9 @@ h4 {
   margin-left: 20%;
 }
 #spanScore {
-  margin-left: 15%;
+  margin-left: 25%;
 }
 #spanName {
- margin-left: 25%;
+ margin-left: 20%;
 }
 </style>
