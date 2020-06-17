@@ -1,6 +1,4 @@
 [{
-	"$id": "1",
 	"openDebt": 1,
-	"launchNF": 3,
-	"valueDebt": 300
+	"launchNF": 3
 }]

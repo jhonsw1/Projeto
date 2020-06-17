@@ -16,14 +16,16 @@ namespace APIprojectSerasa.Controllers
         public IEnumerable<dynamic> Get()
         {
             var infoScore = from info in bd.InfoScore
-                            select new { info.scoreComp, info.openDebt, info.launchNF };
+                            select new { info.id, info.scoreComp, info.openDebt, info.launchNF, info.valueDebt };
             return infoScore;
         }
 
         // GET: api/InfoScore/5
-        public string Get(int id)
+        public dynamic Get(int id)
         {
-            return "value";
+            var infoScore = from info in bd.InfoScore where info.id.Equals(id)
+                            select new { info.scoreComp, info.openDebt, info.launchNF };
+            return infoScore;
         }
 
         // POST: api/InfoScore
@@ -32,15 +34,14 @@ namespace APIprojectSerasa.Controllers
         }
 
         // PUT: api/InfoScore/5
-        public string Put(int id, [FromBody]InfoScore value)
+        public void Put(int id, [FromBody]InfoScore value)
         {
             InfoScore change = bd.InfoScore.Find(id);
-            change.launchNF += value.launchNF;
-            change.openDebt += value.openDebt;
-            change.valueDebt += value.valueDebt;
+            change.launchNF = value.launchNF;
+            change.openDebt = value.openDebt;
+            change.valueDebt = value.valueDebt;
             change.scoreComp = value.scoreComp;
             bd.SaveChanges();
-            return "Alterado com sucesso!!";
         }
 
         // DELETE: api/InfoScore/5

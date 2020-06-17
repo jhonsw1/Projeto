@@ -2,7 +2,7 @@
   <div class="General">
     <div id="PanelScore">
       <div id="PanelScoreValue">
-        <span v-for="info in dataScore" :key="info.ID" id="FontSpan">{{info.Score}}</span>
+        <span v-for="info in dataScore" :key="info.ID" id="FontSpan">{{info.scoreComp}}</span>
         <span>de 100</span>
       </div>
       <div id="ResScore">
@@ -27,9 +27,9 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
+  //Method para declaração de variaveis local
   data: function() {
     return {
       arreyScore: [{}],
@@ -39,30 +39,17 @@ export default {
     };
   },
   computed: {
+    //Method para Buscar os valores da store
     dataScore: function() {
-      return this.$store.state.InfoScoreComp;
+      return this.$store.state.InfoDebt;
     },
     RankScore: function() {
       return this.$store.state.GlobalScore;
     }
   },
-  mounted: function() {
-    this.arreyScore = this.$store.state.InfoScoreComp;
-    for (let i = 0; i <= this.arreyScore.length; i++) {
-      this.valueScore = this.$store.state.InfoScoreComp[i].Score;
-      if (this.valueScore >= 0 && this.valueScore <= 20) {
-        this.statusScore = "Ruim";
-      } else if (this.valueScore <= 40) {
-        this.statusScore = "Regular";
-      } else if (this.valueScore <= 70) {
-        this.statusScore = "Normal";
-      } else {
-        this.statusScore = "Bom";
-      }
-    }
-  },
-  created(){
-            this.arreyRank = this.$store.state.GlobalScore;
+  mounted() {
+    //Realizando a lógica do rank
+       this.arreyRank = this.$store.state.GlobalScore;
     var aux = [{}];
     for (var i = 0; i < this.arreyRank.length; i++) {
       for (var j = i + 1; j < this.arreyRank.length; j++) {
@@ -74,10 +61,25 @@ export default {
       }
     }
   },
-  updated(){
-   
+  created(){
+    
+    //Realizando a lógica de posição do Score
+        this.arreyScore = this.$store.state.InfoDebt;
+    for (let i = 0; i < this.arreyScore.length; i++) {
+      this.valueScore = this.$store.state.InfoDebt[i].scoreComp;
+      if (this.valueScore >= 0 && this.valueScore <= 20) {
+        this.statusScore = "Ruim";
+      } else if (this.valueScore <= 40) {
+        this.statusScore = "Regular";
+      } else if (this.valueScore <= 70) {
+        this.statusScore = "Normal";
+      } else {
+        this.statusScore = "Bom";
+      }
+    }
   },
   methods: {
+    //Method para retornar a tela anterior 'SelectCompany'
     ComeBack: function() {
       this.$router.push("PanelInfo");
     }
@@ -91,7 +93,7 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  min-height: 200px;
+  height: 100%;
   min-width: 30%;
   margin-left: 25%;
   user-select: none;
@@ -99,7 +101,7 @@ export default {
 }
 #PanelScore {
   background-color: #ffffff;
-  min-width: 20%;
+  min-width: 25%;
   margin-left: 10px;
   min-height: 520px;
   display: flex;
@@ -168,6 +170,7 @@ export default {
   justify-content: center;
   height: 40px;
   width: 70%;
+  margin-left: -40px;
 }
 h4 {
   margin-left: 20%;

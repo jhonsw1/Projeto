@@ -1,0 +1,4 @@
+[{
+	"openDebt": 6,
+	"launchNF": 0
+}]

@@ -6,8 +6,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    InfoScoreComp: [{}],
-    GlobalScore: [{}]
+    InfoScoreComp: [],
+    GlobalScore: [],
+    InfoDebt: []
   },
   mutations: {
     InfoAPIcomp: function (state, Companys) {
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     InfoGlobalScore: function (state, Score) {
       state.GlobalScore.push(Score)
     },
+    InfoDebt: function(state, info){
+      state.InfoDebt.push(info)
+    }
   },
   actions: {
   },

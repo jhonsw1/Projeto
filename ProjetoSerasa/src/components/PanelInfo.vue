@@ -2,18 +2,18 @@
   <div id="General">
     <div id="GenePanel">
       <h3 id="Title">Dados da empresa</h3>
-
       <div id="panelDetalComp">
-        <span id="SubNames">Empresa</span>
-
-        <div v-for="info in InfoScoreComp" :key="info.ID" id="Info">{{info.NameComp}}</div>
-
-        <span id="SubNames">Cnpj</span>
-        <div v-for="info in InfoScoreComp" :key="info.ID" id="Info">{{info.Cnpj}}</div>
-        <span>Endereço</span>
-        <div v-for="info in InfoScoreComp" :key="info.ID" id="Info">{{info.Address}}</div>
+        <div id="SubName">
+          <span id="SpanComp">Empresa</span>
+          <span id="SpanCnpj">Cnpj</span>
+          <span id="SpanAddress">Endereço</span>
+        </div>
+        <div id="InfoSpan" v-for="info in InfoScoreComp" :key="info.ID">
+          <span id="SpanInfo">{{info.NameComp}}</span>
+          <span id="SpanInfo">{{info.Cnpj}}</span>
+          <span id="SpanInfo">{{info.Address}}</span>
+        </div>
       </div>
-
       <div id="PanelData1">
         <div id="PanelData2" @click="OpenRoute">
           <span id="spanSub">Débitos Pendentes</span>
@@ -33,19 +33,18 @@
     </div>
   </div>
 </template>
-
 <script>
 const axios = require("axios");
 export default {
+  //method para declarar variaveis local
   data: function() {
     return {
       selectedFile: null,
-      valueScore: this.$store.state.InfoScoreComp,
       score: 0,
       idComp: 0,
       open_Debt: 0,
       launch_NF: 0,
-      value_Debt: 0
+      valueScore: this.$store.state.InfoDebt
     };
   },
   computed: {
@@ -54,40 +53,54 @@ export default {
     }
   },
   methods: {
+    //Method para ir a tela de Débitos Pendentes
     OpenRoute: function() {
       this.$router.push("PanelDebt");
     },
-    Finish: function() {
-      let Return = confirm("Deseja realmente sair??");
-      if (Return == true) {
-        this.$store.state.GlobalScore = [{}];
-        this.$store.state.InfoScoreComp = [{}];
-        this.$router.push("SelectCompany");
-      }
-    },
+    //Method para ir a tela de Score
     OpaneScore: function() {
       this.$router.push("PanelScore");
     },
-    onFileSelected: function(event) {
-      this.selectedFile = event.target.files;
-      for (let i = 0; i <= this.valueScore.length; i++) {
-        this.score = this.valueScore[i].Score;
-        this.launch_NF = this.valueScore[i].LaunchNF;
-        this.open_Debt = this.valueScore[i].OpenDebt;
-        this.value_Debt = this.valueScore[i].ValueDebt;
-        this.idComp = this.valueScore[i].ID;
-        onchange = "";
+    //Method para finalizar a consulta
+    Finish: function() {
+      let Return = confirm("Deseja realmente sair??");
+      if (Return == true) {
+        this.$store.state.GlobalScore = [];
+        this.$store.state.InfoScoreComp = [];
+        this.$store.state.InfoDebt = [];
+        this.$router.push("SelectCompany");
       }
     },
+    // Buscando o arquivo.txt
+    onFileSelected: function(event) {
+      this.selectedFile = event.target.files;
+      //Buscando os valores do arrey de Objetos
+      for (let i = 0; i < this.valueScore.length; i++) {
+        this.score = this.valueScore[i].scoreComp;
+        this.launch_NF = this.valueScore[i].launchNF;
+        this.open_Debt = this.valueScore[i].openDebt;
+        this.idComp = this.valueScore[i].id;
+        console.log(this.idComp);
+        console.log(
+          "DEBITO ",
+          this.open_Debt,
+          "NF ",
+          this.launch_NF,
+          "SCORE",
+          this.score
+        );
+      }
+    },
+    //Ler o arquivo.txt e realizar o para API
     UploadFile: function() {
       let file = this.selectedFile[0];
       let json = [];
-      let id = this.idComp;
       let Score = this.score;
       let openDebt = this.open_Debt;
       let launchNF = this.launch_NF;
-      let valueDebt = this.value_Debt;
-
+      let ID = this.idComp;
+      let key = 0;
+      let self = this;
       if (file) {
         var reader = new FileReader();
         reader.readAsText(file, "UTF-8");
@@ -95,29 +108,58 @@ export default {
           json = JSON.parse(evt.target.result);
 
           json.forEach(el => {
-            openDebt = el.openDebt;
-            launchNF = el.launchNF;
-            valueDebt = el.valueDebt;
+            openDebt += el.openDebt;
+            launchNF += el.launchNF;
           });
+          //Regra de calculo de débitos pagos
           for (let i = 1; i <= launchNF; i++) {
             let porcentagem = 0;
             porcentagem = (Score * 2.0) / 100;
             Score = Math.round(Score + porcentagem);
           }
+          //Regra de calculo de débitos pendentes
           for (let i = 1; i <= openDebt; i++) {
             let porcentagem = 0;
             porcentagem = (Score * 4.0) / 100;
             Score = Math.round(Score - porcentagem);
           }
-          axios
-            .put(`https://localhost:44348/api/InfoScore/${id}`, {
+          //Se o resultado do calculo do score for maior que 100. o valor da score será  100
+          if (Score > 100) {
+            Score = 100;
+          }
+          //Se o resultado do calculo do score for menor que 1. o valor da score será 1
+          else if (Score < 1) {
+            Score = 1;
+          }
+          self.$store.state.InfoDebt = [
+            {
+              id: ID,
+              scoreComp: Score,
               launchNF: launchNF,
-              openDebt: openDebt,
-              valueDebt: valueDebt,
-              scoreComp: Score
-            })
-            .then(alert("Atualizado com Sucesso!!!"));
-          axios;
+              openDebt: openDebt
+            }
+          ];
+
+          for (let i = 0; i < self.$store.state.InfoScoreComp.length; i++) {
+            key = self.$store.state.InfoDebt[i].id;
+          }
+          self.$store.state.GlobalScore[key - 1].NameComp = self.$store.state.GlobalScore[key - 1].NameComp
+          console.log(self.$store.state.GlobalScore[key - 1]);
+          self.$store.state.GlobalScore[key - 1].ID = ID;
+          self.$store.state.GlobalScore[key - 1].score = Score;
+
+          //Utilizando axios para realizar o put para API
+          axios.put(`https://localhost:44348/api/InfoScore/${ID}`, {
+            id: 5,
+            launchNF: launchNF,
+            openDebt: openDebt,
+            scoreComp: Score
+          });
+          alert("Atualizado com sucesso!!");
+
+          //axios.get(`https://localhost:44348/api/InfoScore/${ID}`).then(company => {
+          //self.$store.state.InfoDebt = company.data
+          //console.log(self.$store.state.InfoDebt)
         };
         reader.onerror = function() {
           console.log("error reading file");
@@ -139,14 +181,13 @@ export default {
   user-select: none;
 }
 #GenePanel {
+  margin: auto;
   background-color: rgb(252, 252, 252);
-  max-width: 80%;
-  min-height: 400px;
+  width: 650px;
+  height: 400px;
   box-shadow: 0px 0px 1px rgb(182, 180, 181);
   position: relative;
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
 }
 #PanelData1 {
@@ -178,17 +219,40 @@ export default {
 #panelDetalComp {
   padding: 5px 5px;
   display: flex;
+  flex-direction: column;
   box-shadow: 0px 0px 1px rgb(221, 221, 221);
   width: 90%;
   height: 50px;
   margin-left: 5%;
   background-color: #ffff;
 }
-#Info {
+#SubName {
+  justify-content: center;
+  min-width: 95%;
+  margin: auto;
+  color: black;
+  font-size: 18px;
+}
+#SpanComp {
+  margin-left: 30%;
+}
+#SpanCnpj {
+  margin-left: 20%;
+}
+#SpanAddress {
+  margin-left: 25%;
+}
+#InfoSpan {
   display: flex;
-  width: 180px;
-  margin-top: 20px;
-  margin-left: -100px;
+  min-width: 95%;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  font-size: 14px;
+}
+#SpanInfo {
+  float: left;
+  margin-left: 15%;
 }
 #divBtns {
   display: flex;
