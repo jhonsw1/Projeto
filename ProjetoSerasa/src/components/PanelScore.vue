@@ -35,7 +35,9 @@ export default {
       arreyScore: [{}],
       valueScore: 0,
       statusScore: "",
-      arreyRank: [{}],
+      arreyRank: [],
+      GeneInfScore: 0,
+      CompInf: 0
     };
   },
   computed: {
@@ -47,12 +49,14 @@ export default {
       return this.$store.state.GlobalScore;
     }
   },
+  // method para realizar a lógica para o Rank de empresas
   mounted() {
-    //Realizando a lógica do rank
-       this.arreyRank = this.$store.state.GlobalScore;
-    var aux = [{}];
-    for (var i = 0; i < this.arreyRank.length; i++) {
-      for (var j = i + 1; j < this.arreyRank.length; j++) {
+    // Buscando os valores do arrey da store e armazenando para uma variavel local 
+    this.arreyRank = this.$store.state.GlobalScore;
+
+    let aux = [];
+    for (let i = 0; i < this.arreyRank.length; i++) {
+      for (let j = i + 1; j < this.arreyRank.length; j++) {
         if (this.arreyRank[i].score < this.arreyRank[j].score) {
           aux[i] = this.arreyRank[i];
           this.arreyRank[i] = this.arreyRank[j];
@@ -61,10 +65,9 @@ export default {
       }
     }
   },
-  created(){
-    
+  created() {
     //Realizando a lógica de posição do Score
-        this.arreyScore = this.$store.state.InfoDebt;
+    this.arreyScore = this.$store.state.InfoDebt;
     for (let i = 0; i < this.arreyScore.length; i++) {
       this.valueScore = this.$store.state.InfoDebt[i].scoreComp;
       if (this.valueScore >= 0 && this.valueScore <= 20) {
@@ -108,7 +111,7 @@ export default {
   display: flex;
   flex-direction: column;
   margin: auto;
-  box-shadow: 0px 0px 0px 1px rgb(248, 248, 248);
+  box-shadow: 0px 0px 0px 1px rgb(240, 239, 239);
 }
 #PanelScoreValue {
   background-color: #fff;
@@ -134,7 +137,7 @@ export default {
   margin-left: 8%;
   min-width: 84%;
   min-height: 250px;
-  box-shadow: 0px 0px 0px 1px rgb(255, 249, 249);
+  box-shadow: 0px 0px 0px 1px rgb(253, 248, 252);
   margin: auto;
 }
 .btn {
@@ -179,6 +182,6 @@ h4 {
   margin-left: 25%;
 }
 #spanName {
- margin-left: 20%;
+  margin-left: 20%;
 }
 </style>

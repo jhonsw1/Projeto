@@ -20,9 +20,6 @@ export default {
     //Method que busca as informações da store
     infoDebt() {
      return this.$store.state.InfoDebt;
-    },
-    Teste() {
-        return this.$store.state.teste;
     }
   },
   methods: {

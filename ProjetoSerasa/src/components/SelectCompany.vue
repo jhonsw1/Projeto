@@ -39,7 +39,6 @@ export default {
     //Method que busca o indice da empresa selecionada na option e armazena na store
     advanceScreen: function() {
       if (this.CompSelect > 0) {
-
         this.$store.commit("InfoAPIcomp", {
           ID: this.CompInf[this.CompSelect - 1].id,
           NameComp: this.CompInf[this.CompSelect - 1].nameComp,
@@ -60,6 +59,7 @@ export default {
             score: this.GeneInfScore[i].scoreComp
           });
         }
+      
         // Depois de armazenar os valores na store, ira buscar a próxima tela
         this.$router.push("PanelInfo");
       } else {

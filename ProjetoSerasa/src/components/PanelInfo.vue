@@ -44,9 +44,10 @@ export default {
       idComp: 0,
       open_Debt: 0,
       launch_NF: 0,
-      valueScore: this.$store.state.InfoDebt
+      valueScore: this.$store.state.InfoDebt,
     };
   },
+  //Buscando arrey da store para renderizar na tela os valores da Empresa
   computed: {
     InfoScoreComp() {
       return this.$store.state.InfoScoreComp;
@@ -74,39 +75,34 @@ export default {
     // Buscando o arquivo.txt
     onFileSelected: function(event) {
       this.selectedFile = event.target.files;
-      //Buscando os valores do arrey de Objetos
+      //Buscando os valores do arrey de Objetos e salvando nas variaveis locais
       for (let i = 0; i < this.valueScore.length; i++) {
         this.score = this.valueScore[i].scoreComp;
         this.launch_NF = this.valueScore[i].launchNF;
         this.open_Debt = this.valueScore[i].openDebt;
         this.idComp = this.valueScore[i].id;
-        console.log(this.idComp);
-        console.log(
-          "DEBITO ",
-          this.open_Debt,
-          "NF ",
-          this.launch_NF,
-          "SCORE",
-          this.score
-        );
       }
     },
-    //Ler o arquivo.txt e realizar o para API
+    //Ler o arquivo.txt e realizar o Put para API
     UploadFile: function() {
+      // Buscando os valores do Arquivo txt
       let file = this.selectedFile[0];
+
+      // buscando os valores das variaveis locais e armazenando dentro das variaveis do method
       let json = [];
       let Score = this.score;
       let openDebt = this.open_Debt;
       let launchNF = this.launch_NF;
       let ID = this.idComp;
-      let key = 0;
       let self = this;
+      
+      //Se tiver valor no arquivo
       if (file) {
         var reader = new FileReader();
         reader.readAsText(file, "UTF-8");
         reader.onload = function(evt) {
           json = JSON.parse(evt.target.result);
-
+        // Buscando os valores dentro do json do arquivo txt
           json.forEach(el => {
             openDebt += el.openDebt;
             launchNF += el.launchNF;
@@ -131,6 +127,7 @@ export default {
           else if (Score < 1) {
             Score = 1;
           }
+          //Atualizando a store referente ao arrey infoDebt
           self.$store.state.InfoDebt = [
             {
               id: ID,
@@ -140,14 +137,6 @@ export default {
             }
           ];
 
-          for (let i = 0; i < self.$store.state.InfoScoreComp.length; i++) {
-            key = self.$store.state.InfoDebt[i].id;
-          }
-          self.$store.state.GlobalScore[key - 1].NameComp = self.$store.state.GlobalScore[key - 1].NameComp
-          console.log(self.$store.state.GlobalScore[key - 1]);
-          self.$store.state.GlobalScore[key - 1].ID = ID;
-          self.$store.state.GlobalScore[key - 1].score = Score;
-
           //Utilizando axios para realizar o put para API
           axios.put(`https://localhost:44348/api/InfoScore/${ID}`, {
             id: 5,
@@ -155,17 +144,15 @@ export default {
             openDebt: openDebt,
             scoreComp: Score
           });
-          alert("Atualizado com sucesso!!");
 
-          //axios.get(`https://localhost:44348/api/InfoScore/${ID}`).then(company => {
-          //self.$store.state.InfoDebt = company.data
-          //console.log(self.$store.state.InfoDebt)
+          alert("Atualizado com sucesso!!");
         };
         reader.onerror = function() {
           console.log("error reading file");
         };
       }
     }
+    
   }
 };
 </script>

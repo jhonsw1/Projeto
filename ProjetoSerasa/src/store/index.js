@@ -14,8 +14,8 @@ export default new Vuex.Store({
     InfoAPIcomp: function (state, Companys) {
       state.InfoScoreComp.push(Companys)
     },
-    InfoGlobalScore: function (state, Score) {
-      state.GlobalScore.push(Score)
+    InfoGlobalScore: function (state, score) {
+      state.GlobalScore.push(score, state)
     },
     InfoDebt: function(state, info){
       state.InfoDebt.push(info)
