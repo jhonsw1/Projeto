@@ -11,7 +11,7 @@ async function FetchData() {
 
     try {
         const response = await fetch(apiUrl);
-
+        var amountMessage = 0;
         if (response.ok) {
             const data = await response.json();
     
@@ -47,6 +47,8 @@ async function FetchData() {
                     FontLimit();
                     StyleApi();
                     OpenWindow();
+                    amountMessage+= 1;
+                    MessageQuantity(amountMessage);
                     return;
                 }
             }    
@@ -64,9 +66,20 @@ async function FetchData() {
 
 FetchData();
 
+
+function MessageQuantity(amount) {
+    var amountMessage = amount
+    var spanElement = document.querySelector('.button-modal .badge');
+
+    if (spanElement) {
+        spanElement.textContent = amountMessage;
+    } 
+}
+
+
 // Deixar o botão invisivel
 function ButtonInvisible(){
-    const buttonInvisble = document.getElementById('childer-button')
+    const buttonInvisble = document.getElementById('button-modal')
     buttonInvisble.style.display = "none";
 }
 
@@ -120,7 +133,7 @@ function OpenWindow() {
             modal.classList.remove('open');
             document.removeEventListener('click', closeModal);
 
-            const buttonVisible = document.getElementById('childer-button')
+            const buttonVisible = document.getElementById('button-modal')
             buttonVisible.style.display = "block";
         }
     }

@@ -20,25 +20,39 @@ body, html {
     flex-direction: column; 
 }
 
-.childer-button * {
+.button-modal {
     border-radius: 50%;
     margin-bottom: 2%;
-}
-
-.button-modal  {
     display: inline-block;
     border: none; /* Remova as bordas do botão */
-    background-color: #f1f1f1;
     width: 70px; 
-    overflow: hidden;
     box-shadow:  0 4px 4px 2px rgb(0,0,0,0.2);
     cursor: pointer;
+    position: relative;
+    overflow: visible;
+}
+
+.button-modal span {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 4px;
+    font-size: 5px;
+    left: calc(95% - 10px); 
+    top: 7px; 
+
 }
 
 .button-modal img {
     width: 100%; 
     height: 100%; 
     object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 2%;
 }
 
 .button-modal:active {
@@ -92,12 +106,13 @@ body, html {
 }
 
 .button-window:active {
-    transform: translateY(1px); /* Afunda o botão 2 pixels para baixo ao clicar */
+    transform: translateY(2px); /* Afunda o botão 2 pixels para baixo ao clicar */
   }
 
 .button-window:hover {
     border-radius: 50%;
     transition: background-color 0.4s;
+    color: red;
 }  
 
 .window-information {
