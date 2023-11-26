@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container" id="container">
-        <div class="childer-button">
+        <div class="childer-button" id="childer-button">
             <button class="button-modal" onclick="OpenWindow()">
                 <img class="img" src="logo.png" alt="logo modal">
             </button>
@@ -20,7 +20,7 @@
                 <div class="window-information" id="window-information">
                     <p class="title" id="title"></p>
                     <p class="information" id="information"></p>
-                    <a href="" id="href">clique aqui</a>
+                    <a id="href" onclick="targetBlank(event)">Saiba mais</a>
                 </div>
             </div>
         </div>
